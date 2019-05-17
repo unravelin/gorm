@@ -148,7 +148,10 @@ func (scope *Scope) GetModelStruct() *ModelStruct {
 					field.DBName = ToDBName(fieldStruct.Name)
 				}
 			}
-			fields = append(fields, field)
+			// This is to stop auto generated protobuf XXX fields ending up as columns in the DB
+			if !strings.HasPrefix(field.DBName, "x_x_x_") {
+				fields = append(fields, field)
+			}
 		}
 	}
 
